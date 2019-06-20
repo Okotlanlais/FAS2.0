@@ -21,6 +21,7 @@ public class Tool {
     private String brand;
 
     @ManyToOne
+    @JoinColumn(name = "auth_user_id")
     private User user;
 
     public int getId() {
