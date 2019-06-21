@@ -37,6 +37,12 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Tool> tools;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Specialty> specialties;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Photo> photos;
+
     public int getId() {
         return id;
     }
@@ -99,5 +105,21 @@ public class User {
 
     public void setTools(Set<Tool> tools) {
         this.tools = tools;
+    }
+
+    public Set<Specialty> getSpecialties() {
+        return specialties;
+    }
+
+    public void setSpecialties(Set<Specialty> specialties) {
+        this.specialties = specialties;
+    }
+
+    public Set<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(Set<Photo> photos) {
+        this.photos = photos;
     }
 }
