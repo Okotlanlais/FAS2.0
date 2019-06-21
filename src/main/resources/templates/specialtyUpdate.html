@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Fotomania-Update-Tools</title>
+    <title>Fotomania-Add-Specialties</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -132,20 +132,14 @@
     </ul>
     <!-- End of Sidebar -->
 
-    <form class="user" action="/home/company/tool/update" th:object="${tool}" method="post">
+    <form class="user" action="/home/company/specialty/update" th:object="${specialty}" method="post">
         <div class="form-group row">
-                <input th:field="*{id}" type="hidden"/>
+            <input th:field="*{id}" type="hidden"/>
             <div class="col-sm-6 mb-3 mb-sm-0">
-                <input th:field="*{name}" type="text" class="form-control form-control-user">
-            </div>
-            <div class="col-sm-6">
-                <input th:field="*{model}" type="text" class="form-control form-control-user" placeholder="Model">
+                <input th:field="*{name}" type="text" class="form-control form-control-user" placeholder="Name">
             </div>
         </div>
-        <div class="form-group">
-            <input th:field="*{brand}" type="text" class="form-control form-control-user" placeholder="Brand">
-        </div>
-        <button class="btn btn-primary btn-user btn-block" name="Submit" value="AddTool" type="Submit">Update Tool</button>
+        <button class="btn btn-primary btn-user btn-block" name="Submit" value="AddSpecialty" type="Submit">Update Specialty</button>
         <span th:utext="${errorMessage}"></span>
         <div class="alert alert-danger alert-dismissible col-sm-12"
              th:if="${(bindingResult != null && bindingResult.getAllErrors() != null)}">

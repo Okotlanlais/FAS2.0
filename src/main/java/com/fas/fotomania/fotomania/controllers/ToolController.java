@@ -41,13 +41,13 @@ public class ToolController {
 	@RequestMapping(value = "/home/company/tool/add", method = RequestMethod.POST)
 	public String saveTool(@Valid Tool tool, BindingResult bindingResult, RedirectAttributes redirectAttribute, Principal principal){
 		if (bindingResult.hasErrors()){
-			redirectAttribute.addFlashAttribute("message","Correct the errors in the form");
+			redirectAttribute.addFlashAttribute("errorMessage","Correct the errors in the form");
 			redirectAttribute.addFlashAttribute("bindingResult", bindingResult);
 		}else {
 			User currentUser=userService.findUserByEmail(principal.getName());
 			tool.setUser(currentUser);
 			toolService.saveTool(tool);
-			redirectAttribute.addFlashAttribute("message", "Tool registered successfully");
+			redirectAttribute.addFlashAttribute("successMessage", "Tool registered successfully");
 			return "redirect:/home/company/tool";
 		}
 		return "redirect:/home/company/tool/add";
@@ -58,9 +58,9 @@ public class ToolController {
 		User currentUser = userService.findUserByEmail(principal.getName());
 		if (currentTool.get().getUser().getId()==currentUser.getId()){
 			toolService.deleteTool(currentTool.get());
-			redirectAttribute.addFlashAttribute("message", "Delete completed");
+			redirectAttribute.addFlashAttribute("successMessage", "Delete completed");
 		}else{
-			redirectAttribute.addFlashAttribute("message", "We are watching you!");
+			redirectAttribute.addFlashAttribute("errorMessage", "We are watching you!");
 		}
 		return "redirect:/home/company/tool";
 	}
@@ -72,7 +72,8 @@ public class ToolController {
 		if (currentTool.get().getUser().getId()==currentUser.getId()){
 			model.addAttribute("tool", currentTool.get());
 		}else{
-			redirectAttribute.addFlashAttribute("message", "We are watching you!");
+			redirectAttribute.addFlashAttribute("errorMessage", "We are watching you!");
+			return "redirect:/home/company/tool";
 		}
 		return "toolUpdate.html";
 	}
@@ -80,7 +81,7 @@ public class ToolController {
 	public String saveToolUpdate(@Valid Tool tool, BindingResult bindingResult, RedirectAttributes redirectAttribute, Principal principal){
 		User currentUser = userService.findUserByEmail(principal.getName());
 		if (bindingResult.hasErrors()){
-			redirectAttribute.addFlashAttribute("message","Correct the errors in the form");
+			redirectAttribute.addFlashAttribute("errorMessage","Correct the errors in the form");
 			redirectAttribute.addFlashAttribute("bindingResult", bindingResult);
 		}else {
 			int id = tool.getId();
@@ -88,12 +89,12 @@ public class ToolController {
 			if (currentTool.get().getUser().getId()==currentUser.getId()){
 				tool.setUser(currentUser);
 				toolService.updateTool(tool);
-				redirectAttribute.addFlashAttribute("message", "Tool updated successfully");
+				redirectAttribute.addFlashAttribute("successMessage", "Tool updated successfully");
 				return "redirect:/home/company/tool";
 			} else {
-				redirectAttribute.addFlashAttribute("message", "We are watching you!");
+				redirectAttribute.addFlashAttribute("errorMessage", "We are watching you!");
 			}
 		}
-		return "redirect:/home/company/tool/add";
+		return String.format("redirect:/home/company/tool/update/%d",tool.getId());
 	}
 }

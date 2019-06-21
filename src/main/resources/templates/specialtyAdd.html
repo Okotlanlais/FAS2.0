@@ -139,7 +139,7 @@
             </div>
         </div>
         <button class="btn btn-primary btn-user btn-block" name="Submit" value="AddSpecialty" type="Submit">Register Specialty</button>
-        <span th:utext="${message}"></span>
+        <span th:utext="${errorMessage}"></span>
         <div class="alert alert-danger alert-dismissible col-sm-12"
              th:if="${(bindingResult != null && bindingResult.getAllErrors() != null)}">
             <button type="button" class="close" data-dismiss="alert"
