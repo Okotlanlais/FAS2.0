@@ -22,7 +22,7 @@ import java.util.Optional;
 public class ToolController {
 	
 	@Autowired
-	IToolService toolservice;
+	IToolService toolService;
 
 	@Autowired
 	IUserService userService;
@@ -30,7 +30,7 @@ public class ToolController {
 	@RequestMapping(value="/home/company/tool", method=RequestMethod.GET)
 	public String listTools(Model model, Principal principal) {
 		User currentUser=userService.findUserByEmail(principal.getName());
-		model.addAttribute("tools",toolservice.findToolsByCompany(currentUser.getId()));
+		model.addAttribute("tools",toolService.findToolsByCompany(currentUser.getId()));
 		return "toolList.html";
 	}
 	@RequestMapping(value="/home/company/tool/add",method = RequestMethod.GET)
@@ -46,7 +46,7 @@ public class ToolController {
 		}else {
 			User currentUser=userService.findUserByEmail(principal.getName());
 			tool.setUser(currentUser);
-			toolservice.saveTool(tool);
+			toolService.saveTool(tool);
 			redirectAttribute.addFlashAttribute("message", "Tool registered successfully");
 			return "redirect:/home/company/tool";
 		}
@@ -54,10 +54,10 @@ public class ToolController {
 	}
 	@RequestMapping(value = "/home/company/tool/delete/{id}", method = RequestMethod.GET)
 	public String deleteTool(@PathVariable int id, RedirectAttributes redirectAttribute, Principal principal){
-		Optional<Tool> currentTool= toolservice.findById(id);
+		Optional<Tool> currentTool= toolService.findById(id);
 		User currentUser = userService.findUserByEmail(principal.getName());
 		if (currentTool.get().getUser().getId()==currentUser.getId()){
-			toolservice.deleteTool(currentTool.get());
+			toolService.deleteTool(currentTool.get());
 			redirectAttribute.addFlashAttribute("message", "Delete completed");
 		}else{
 			redirectAttribute.addFlashAttribute("message", "We are watching you!");
@@ -67,7 +67,7 @@ public class ToolController {
 
 	@RequestMapping(value = "/home/company/tool/update/{id}", method = RequestMethod.GET)
 	public String updateTool(@PathVariable int id, RedirectAttributes redirectAttribute, Principal principal, Model model){
-		Optional<Tool> currentTool= toolservice.findById(id);
+		Optional<Tool> currentTool= toolService.findById(id);
 		User currentUser = userService.findUserByEmail(principal.getName());
 		if (currentTool.get().getUser().getId()==currentUser.getId()){
 			model.addAttribute("tool", currentTool.get());
@@ -84,10 +84,10 @@ public class ToolController {
 			redirectAttribute.addFlashAttribute("bindingResult", bindingResult);
 		}else {
 			int id = tool.getId();
-			Optional<Tool> currentTool= toolservice.findById(id);
+			Optional<Tool> currentTool= toolService.findById(id);
 			if (currentTool.get().getUser().getId()==currentUser.getId()){
 				tool.setUser(currentUser);
-				toolservice.updateTool(tool);
+				toolService.updateTool(tool);
 				redirectAttribute.addFlashAttribute("message", "Tool updated successfully");
 				return "redirect:/home/company/tool";
 			} else {

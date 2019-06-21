@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Login</title>
+  <title>Fotomania-Login</title>
 
   <!-- Custom fonts for this template-->
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -17,6 +17,9 @@
 
   <!-- Custom styles for this template-->
   <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+
+  <!-- Core plugin JavaScript-->
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 </head>
 
@@ -39,7 +42,7 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
-                  <form class="user" th:action="@{/login}" method="POST">
+                  <form class="user" th:action="@{/login}" method="post">
                     <div class="form-group">
                       <input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Enter Email Address...">
                     </div>
@@ -49,7 +52,7 @@
                     <div align="center" th:if="${param.error}">
                       <p style="font-size: 20; color: #FF1C19;">Email or Password is invalid.</p>
                     </div>
-                    <button class="btn btn-primary btn-user btn-block" name="Submit" value="Login" type="Submit" th:text="Login"/>
+                    <button class="btn btn-primary btn-user btn-block" name="Submit" value="Login" type="Submit">Login</button>
                     <hr>
                   </form>
                   <div class="text-center">
@@ -73,9 +76,6 @@
   <!-- Bootstrap core JavaScript-->
   <script src="/vendor/jquery/jquery.min.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="/js/sb-admin-2.min.js"></script>
