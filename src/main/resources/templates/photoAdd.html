@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Fotomania-Specialties</title>
+    <title>Fotomania-Add-Specialties</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -16,6 +16,7 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 </head>
+
 <body id="page-top">
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -147,68 +148,26 @@
     </ul>
     <!-- End of Sidebar -->
 
-    <div id="content-wrapper" class="d-flex flex-column">
-
-        <!-- Main Content -->
-        <div id="content">
-
-            <!-- Begin Page Content -->
-            <div class="container-fluid">
-
-                <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-                <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
-
-                <!-- DataTales Example -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Update</th>
-                                    <th>Delete</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Update</th>
-                                    <th>Delete</th>
-                                </tr>
-                                </tfoot>
-                                <tbody>
-                                <tr th:each="specialty :${specialties}">
-                                    <td th:text="${specialty.id}"></td>
-                                    <td th:text="${specialty.name}"></td>
-                                    <td><a th:href="@{'/home/company/specialty/update/' + ${specialty.id}}">update</a></td>
-                                    <td><a th:href="@{'/home/company/specialty/delete/' + ${specialty.id}}">delete</a></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <span th:utext="${successMessage}" class="alert alert-success alert-dismissible col-sm-12"></span>
-                            <span th:utext="${errorMessage}" class="alert alert-danger alert-dismissible col-sm-12"></span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!-- /.container-fluid -->
-
+    <form class="user" action="/home/company/photo/add" th:object="${photo}" method="post">
+        <div class="form-group row">
+                <input th:field="*{description}" type="text" class="form-control form-control-user" placeholder="Name">
         </div>
-    </div>
-    <!-- End of Content Wrapper -->
-    <!-- End of Main Content -->
-
+        <div class="form-group">
+            <input th:field="*{image}" type="file" class="form-control form-control-user">
+        </div>
+        <button class="btn btn-primary btn-user btn-block" name="Submit" value="AddPhoto" type="Submit">Register Photo</button>
+        <span th:utext="${errorMessage}"></span>
+        <div class="alert alert-danger alert-dismissible col-sm-12"
+             th:if="${(bindingResult != null && bindingResult.getAllErrors() != null)}">
+            <button type="button" class="close" data-dismiss="alert"
+                    aria-hidden="true">×</button>
+            <ul th:each="data : ${bindingResult.getAllErrors()}">
+                <li th:text="${data.getObjectName() + ' :: ' + data.getDefaultMessage()}"></li>
+            </ul>
+        </div>
+    </form>
 
 </div>
-
 <!-- Bootstrap core JavaScript-->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -1,5 +1,6 @@
 package com.fas.fotomania.fotomania.controllers;
 
+import com.fas.fotomania.fotomania.entities.Photo;
 import com.fas.fotomania.fotomania.entities.User;
 import com.fas.fotomania.fotomania.services.interfaces.IPhotoService;
 import com.fas.fotomania.fotomania.services.interfaces.IUserService;
@@ -25,5 +26,12 @@ public class PhotoController {
         User currentUser=userService.findUserByEmail(principal.getName());
         model.addAttribute("tools",photoService.findPhotosByCompany(currentUser.getId()));
         return "photoList.html";
+    }
+
+    @RequestMapping(value = "/home/company/photo/add", method = RequestMethod.GET)
+    public String createAddSpecialty(Model model){
+        model.addAttribute("photo", new Photo());
+
+        return "photoAdd.html";
     }
 }
