@@ -11,13 +11,13 @@ public class Tool {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty
+    @NotEmpty(message = "Name must be complete")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "Model must be complete")
     private String model;
 
-    @NotEmpty
+    @NotEmpty(message = "Brand must be complete")
     private String brand;
 
     @ManyToOne
