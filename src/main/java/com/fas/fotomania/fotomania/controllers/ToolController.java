@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 public class ToolController {
@@ -47,6 +49,50 @@ public class ToolController {
 			toolservice.saveTool(tool);
 			redirectAttribute.addFlashAttribute("message", "Tool registered successfully");
 			return "redirect:/home/company/tool";
+		}
+		return "redirect:/home/company/tool/add";
+	}
+	@RequestMapping(value = "/home/company/tool/delete/{id}", method = RequestMethod.GET)
+	public String deleteTool(@PathVariable int id, RedirectAttributes redirectAttribute, Principal principal){
+		Optional<Tool> currentTool= toolservice.findById(id);
+		User currentUser = userService.findUserByEmail(principal.getName());
+		if (currentTool.get().getUser().getId()==currentUser.getId()){
+			toolservice.deleteTool(currentTool.get());
+			redirectAttribute.addFlashAttribute("message", "Delete completed");
+		}else{
+			redirectAttribute.addFlashAttribute("message", "We are watching you!");
+		}
+		return "redirect:/home/company/tool";
+	}
+
+	@RequestMapping(value = "/home/company/tool/update/{id}", method = RequestMethod.GET)
+	public String updateTool(@PathVariable int id, RedirectAttributes redirectAttribute, Principal principal, Model model){
+		Optional<Tool> currentTool= toolservice.findById(id);
+		User currentUser = userService.findUserByEmail(principal.getName());
+		if (currentTool.get().getUser().getId()==currentUser.getId()){
+			model.addAttribute("tool", currentTool.get());
+		}else{
+			redirectAttribute.addFlashAttribute("message", "We are watching you!");
+		}
+		return "toolUpdate.html";
+	}
+	@RequestMapping(value = "/home/company/tool/update", method = RequestMethod.POST)
+	public String saveToolUpdate(@Valid Tool tool, BindingResult bindingResult, RedirectAttributes redirectAttribute, Principal principal){
+		User currentUser = userService.findUserByEmail(principal.getName());
+		if (bindingResult.hasErrors()){
+			redirectAttribute.addFlashAttribute("message","Correct the errors in the form");
+			redirectAttribute.addFlashAttribute("bindingResult", bindingResult);
+		}else {
+			int id = tool.getId();
+			Optional<Tool> currentTool= toolservice.findById(id);
+			if (currentTool.get().getUser().getId()==currentUser.getId()){
+				tool.setUser(currentUser);
+				toolservice.updateTool(tool);
+				redirectAttribute.addFlashAttribute("message", "Tool updated successfully");
+				return "redirect:/home/company/tool";
+			} else {
+				redirectAttribute.addFlashAttribute("message", "We are watching you!");
+			}
 		}
 		return "redirect:/home/company/tool/add";
 	}

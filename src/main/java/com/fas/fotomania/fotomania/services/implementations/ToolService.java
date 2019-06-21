@@ -67,5 +67,8 @@ public class ToolService implements IToolService {
 		Optional<User> currentCompany=userRepository.findById(companyId);
 		return toolRepository.findByUser(currentCompany);
 	}
-
+	@Override
+	public Optional<Tool> findById(int id){
+		return toolRepository.findById(id);
+	}
 }
