@@ -94,6 +94,20 @@
             </div>
         </li>
 
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOffers" aria-expanded="true" aria-controls="collapseUtilities">
+                <i class="fas fa-fw fa-wrench"></i>
+                <span>Offers</span>
+            </a>
+            <div id="collapseOffers" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Offer options:</h6>
+                    <a class="collapse-item" href="/home/company/offer/add">Add</a>
+                    <a class="collapse-item" href="/home/company/offer">List</a>
+                </div>
+            </div>
+        </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -155,7 +169,7 @@
                 <input th:field="*{name}" type="text" class="form-control form-control-user" placeholder="Name">
             </div>
         </div>
-        <button class="btn btn-primary btn-user btn-block" name="Submit" value="AddSpecialty" type="Submit">Update Specialty</button>
+        <button class="btn btn-primary btn-user btn-block" name="Submit" value="UpdateSpecialty" type="Submit">Update Specialty</button>
         <span th:utext="${errorMessage}"></span>
         <div class="alert alert-danger alert-dismissible col-sm-12"
              th:if="${(bindingResult != null && bindingResult.getAllErrors() != null)}">
