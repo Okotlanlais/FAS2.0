@@ -46,6 +46,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Offer> offers;
 
+    @OneToOne(mappedBy = "user")
+    private Schedule schedule;
+
     public int getId() {
         return id;
     }
@@ -132,5 +135,13 @@ public class User {
 
     public void setOffers(Set<Offer> offers) {
         this.offers = offers;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 }
