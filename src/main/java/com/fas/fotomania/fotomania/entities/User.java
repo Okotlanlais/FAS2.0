@@ -43,6 +43,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Photo> photos;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Offer> offers;
+
     public int getId() {
         return id;
     }
@@ -121,5 +124,13 @@ public class User {
 
     public void setPhotos(Set<Photo> photos) {
         this.photos = photos;
+    }
+
+    public Set<Offer> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(Set<Offer> offers) {
+        this.offers = offers;
     }
 }
