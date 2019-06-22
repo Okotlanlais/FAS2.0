@@ -37,21 +37,21 @@ public class PhotoController {
     IUserService userService;
 
     @RequestMapping(value="/home/company/photo", method= RequestMethod.GET)
-    public String listTools(Model model, Principal principal) {
+    public String listPhotos(Model model, Principal principal) {
         User currentUser=userService.findUserByEmail(principal.getName());
         model.addAttribute("photos",photoService.findPhotosByCompany(currentUser.getId()));
         return "photoList.html";
     }
 
     @RequestMapping(value = "/home/company/photo/add", method = RequestMethod.GET)
-    public String createAddSpecialty(Model model){
+    public String createAddPhoto(Model model){
         model.addAttribute("photo", new Photo());
 
         return "photoAdd.html";
     }
 
     @RequestMapping(value = "/home/company/photo/add", method = RequestMethod.POST)
-    public String saveTool(@Valid Photo photo, BindingResult bindingResult, RedirectAttributes redirectAttribute, Principal principal) {
+    public String savePhoto(@Valid Photo photo, BindingResult bindingResult, RedirectAttributes redirectAttribute, Principal principal) {
 
         if (bindingResult.hasErrors()){
             redirectAttribute.addFlashAttribute("errorMessage","Correct the errors in the form");

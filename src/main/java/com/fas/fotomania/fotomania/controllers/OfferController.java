@@ -33,14 +33,14 @@ public class OfferController {
     }
 
     @RequestMapping(value = "/home/company/offer/add", method = RequestMethod.GET)
-    public String createAddSpecialty(Model model){
+    public String createAddOffer(Model model){
         model.addAttribute("offer", new Offer());
 
         return "offerAdd.html";
     }
 
     @RequestMapping(value = "/home/company/offer/add", method = RequestMethod.POST)
-    public String saveSpecialty(@Valid Offer offer, BindingResult bindingResult, RedirectAttributes redirectAttribute, Principal principal){
+    public String saveOffer(@Valid Offer offer, BindingResult bindingResult, RedirectAttributes redirectAttribute, Principal principal){
         if (bindingResult.hasErrors()){
             redirectAttribute.addFlashAttribute("errorMessage","Correct the errors in the form");
             redirectAttribute.addFlashAttribute("bindingResult", bindingResult);
@@ -55,7 +55,7 @@ public class OfferController {
     }
 
     @RequestMapping(value = "/home/company/offer/delete/{id}", method = RequestMethod.GET)
-    public String deleteSpecialty(@PathVariable int id, RedirectAttributes redirectAttribute, Principal principal){
+    public String deleteOffer(@PathVariable int id, RedirectAttributes redirectAttribute, Principal principal){
         Optional<Offer> currentOffer= offerService.findById(id);
         User currentUser = userService.findUserByEmail(principal.getName());
         if (currentOffer.get().getUser().getId()==currentUser.getId()){
@@ -68,7 +68,7 @@ public class OfferController {
     }
 
     @RequestMapping(value = "/home/company/offer/update/{id}", method = RequestMethod.GET)
-    public String updateSpecialty(@PathVariable int id, RedirectAttributes redirectAttribute, Principal principal, Model model){
+    public String updateOffer(@PathVariable int id, RedirectAttributes redirectAttribute, Principal principal, Model model){
         Optional<Offer> currentOffer= offerService.findById(id);
         User currentUser = userService.findUserByEmail(principal.getName());
         if (currentOffer.get().getUser().getId()==currentUser.getId()){
@@ -81,7 +81,7 @@ public class OfferController {
     }
 
     @RequestMapping(value = "/home/company/offer/update", method = RequestMethod.POST)
-    public String saveSpecialtyUpdate(@Valid Offer offer, BindingResult bindingResult, RedirectAttributes redirectAttribute, Principal principal){
+    public String saveOfferUpdate(@Valid Offer offer, BindingResult bindingResult, RedirectAttributes redirectAttribute, Principal principal){
         User currentUser = userService.findUserByEmail(principal.getName());
         if (bindingResult.hasErrors()){
             redirectAttribute.addFlashAttribute("errorMessage","Correct the errors in the form");

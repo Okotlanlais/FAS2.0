@@ -1,6 +1,8 @@
 package com.fas.fotomania.fotomania.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
@@ -25,9 +27,13 @@ public class Schedule {
 
     private boolean sunday;
 
+    @Min(0)
+    @Max(23)
     @Column(name = "start_hour")
     private int startHour;
 
+    @Min(0)
+    @Max(23)
     @Column(name = "end_hour")
     private int endHour;
 
