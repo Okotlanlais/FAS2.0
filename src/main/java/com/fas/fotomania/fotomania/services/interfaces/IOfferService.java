@@ -8,9 +8,9 @@ import java.util.Optional;
 
 @Service
 public interface IOfferService {
-    public boolean saveOffer(Offer tool);
-    public boolean updateOffer(Offer tool);
-    public boolean deleteOffer(Offer tool);
+    public boolean saveOffer(Offer offer);
+    public boolean updateOffer(Offer offer);
+    public boolean deleteOffer(Offer offer);
     public List<Offer> listOffers();
     public List<Offer> findOffersByCompany(int companyId);
     public Optional<Offer> findById(int id);

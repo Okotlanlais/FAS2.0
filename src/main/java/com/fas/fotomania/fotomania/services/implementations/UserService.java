@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class UserService implements IUserService {
@@ -51,5 +52,10 @@ public class UserService implements IUserService {
     @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<User> findAllCompanies() {
+        return userRepository.findByCompany("true");
     }
 }
