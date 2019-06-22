@@ -4,6 +4,7 @@ import com.fas.fotomania.fotomania.entities.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface IUserService {
@@ -11,4 +12,5 @@ public interface IUserService {
     public boolean isUserAlreadyPresent(User user);
     public User findUserByEmail(String email);
     public List<User> findAllCompanies();
+    public Optional<User> findCompanyById(int id);
 }

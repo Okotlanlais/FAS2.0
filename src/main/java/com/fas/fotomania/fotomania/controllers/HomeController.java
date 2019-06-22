@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -52,6 +53,7 @@ public class HomeController {
     for (User company:companies) {
             List<Photo> companyPhotos = photoService.findPhotosByCompany(company.getId());
             CompanyView companyView= new CompanyView();
+            companyView.setId(company.getId());
             companyView.setName(company.getName());
             if(companyPhotos.size()>0){
                 companyView.setPhotoURL("/home/company/photo/"+companyPhotos.get(0).getId());
@@ -64,5 +66,12 @@ public class HomeController {
 
 
         return "homeClient.html";
+    }
+
+    @RequestMapping(value="/home/client/company/{id}", method= RequestMethod.GET)
+    public String homeCompany(@PathVariable int id, Model model){
+        User company=userService.findCompanyById(id).get();
+        model.addAttribute("company",company);
+        return "companyView.html";
     }
 }
