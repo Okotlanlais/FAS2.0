@@ -109,6 +109,21 @@
             </div>
         </li>
 
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSchedules" aria-expanded="true" aria-controls="collapseUtilities">
+                <i class="fas fa-fw fa-wrench"></i>
+                <span>Schedules</span>
+            </a>
+            <div id="collapseSchedules" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Schedule options:</h6>
+                    <a class="collapse-item" href="/home/company/schedule/add">Add</a>
+                    <a class="collapse-item" href="/home/company/schedule">List</a>
+                </div>
+            </div>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -162,19 +177,39 @@
     </ul>
     <!-- End of Sidebar -->
 
-    <form class="user" action="/home/company/tool/add" th:object="${tool}" method="post">
+    <form class="user" action="/home/company/schedule/add" th:object="${schedule}" method="post">
         <div class="form-group row">
-            <div class="col-sm-6 mb-3 mb-sm-0">
-                <input th:field="*{name}" type="text" class="form-control form-control-user" placeholder="Name">
+            <div class="col-sm-6">
+                <input th:field="*{monday}" type="checkbox" class="form-control form-control-user" value="1"> Monday
             </div>
             <div class="col-sm-6">
-                <input th:field="*{model}" type="text" class="form-control form-control-user" placeholder="Model">
+                <input th:field="*{tuesday}" type="checkbox" class="form-control form-control-user" value="1"> Tuesday
+            </div>
+            <div class="col-sm-6">
+                <input th:field="*{wednesday}" type="checkbox" class="form-control form-control-user" value="1"> Wednesday
+            </div>
+            <div class="col-sm-6">
+                <input th:field="*{thursday}" type="checkbox" class="form-control form-control-user" value="1"> Thursday
+            </div>
+            <div class="col-sm-6">
+                <input th:field="*{friday}" type="checkbox" class="form-control form-control-user" value="1"> Friday
+            </div>
+            <div class="col-sm-6">
+                <input th:field="*{saturday}" type="checkbox" class="form-control form-control-user" value="1"> Saturday
+            </div>
+            <div class="col-sm-6">
+                <input th:field="*{sunday}" type="checkbox" class="form-control form-control-user" value="1"> Sunday
+            </div>
+            <div class="col-sm-6">
+                <input th:field="*{startHour}" type="number" class="form-control form-control-user" placeholder="7.00">
+                Start Hour
+            </div>
+            <div class="col-sm-6">
+                <input th:field="*{endHour}" type="number" class="form-control form-control-user" placeholder="18.00">
+                End Hour
             </div>
         </div>
-        <div class="form-group">
-            <input th:field="*{brand}" type="text" class="form-control form-control-user" placeholder="Brand">
-        </div>
-        <button class="btn btn-primary btn-user btn-block" name="Submit" value="AddTool" type="Submit">Register Tool</button>
+        <button class="btn btn-primary btn-user btn-block" name="Submit" value="AddSchedule" type="Submit">Register Schedule</button>
         <span th:utext="${errorMessage}"></span>
         <div class="alert alert-danger alert-dismissible col-sm-12"
              th:if="${(bindingResult != null && bindingResult.getAllErrors() != null)}">

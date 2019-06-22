@@ -15,6 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -30,6 +32,11 @@ public class ScheduleController {
     public String listSchedule(Model model, Principal principal) {
         User currentUser=userService.findUserByEmail(principal.getName());
         model.addAttribute("schedule",scheduleService.findScheduleByCompany(currentUser.getId()));
+        List<Integer> hours = new ArrayList<>();
+        for( int i=7;i<21;i++){
+            hours.add(i);
+        }
+        model.addAttribute("hours",hours);
         return "scheduleList.html";
     }
 
@@ -46,7 +53,7 @@ public class ScheduleController {
             redirectAttribute.addFlashAttribute("bindingResult", bindingResult);
         }else {
             User currentUser=userService.findUserByEmail(principal.getName());
-            if(currentUser.getSchedule().getId()!=0){
+            if(currentUser.getSchedule()!=null){
                 redirectAttribute.addFlashAttribute("errorMessage","You can only have one schedule, go to update");
             }else{
                 if(schedule.isFriday()||schedule.isMonday()||schedule.isSaturday()||schedule.isSunday()||schedule.isThursday()||schedule.isTuesday()||schedule.isWednesday()){
