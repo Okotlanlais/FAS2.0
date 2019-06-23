@@ -27,13 +27,13 @@ public class Schedule {
 
     private boolean sunday;
 
-    @Min(0)
-    @Max(23)
+    @Min(7)
+    @Max(21)
     @Column(name = "start_hour")
     private int startHour;
 
-    @Min(0)
-    @Max(23)
+    @Min(7)
+    @Max(21)
     @Column(name = "end_hour")
     private int endHour;
 
