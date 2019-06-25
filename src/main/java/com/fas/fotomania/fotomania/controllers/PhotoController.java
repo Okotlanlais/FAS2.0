@@ -4,7 +4,10 @@ import com.fas.fotomania.fotomania.entities.Photo;
 import com.fas.fotomania.fotomania.entities.User;
 import com.fas.fotomania.fotomania.services.interfaces.IPhotoService;
 import com.fas.fotomania.fotomania.services.interfaces.IUserService;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.Blob;
 
 @Controller
 public class PhotoController {
@@ -51,18 +55,29 @@ public class PhotoController {
     }
 
     @RequestMapping(value = "/home/company/photo/add", method = RequestMethod.POST)
-    public String savePhoto(@Valid Photo photo, BindingResult bindingResult, RedirectAttributes redirectAttribute, Principal principal) {
+    public String savePhoto(@Valid Photo photo, BindingResult bindingResult, RedirectAttributes redirectAttribute, Principal principal, @RequestParam("image") MultipartFile file) {
 
-        if (bindingResult.hasErrors()){
-            redirectAttribute.addFlashAttribute("errorMessage","Correct the errors in the form");
-            redirectAttribute.addFlashAttribute("bindingResult", bindingResult);
+        if (photo.getDescription().length() == 0 || file.getSize() == 0){
+            redirectAttribute.addFlashAttribute("errorMessage","Complete all the inputs in the form");
+            //redirectAttribute.addFlashAttribute("bindingResult", bindingResult);
         }else {
-            User currentUser=userService.findUserByEmail(principal.getName());
-            photo.setUser(currentUser);
-            //System.out.println(photo.getImage().toString());
-            photoService.savePhoto(photo);
-            redirectAttribute.addFlashAttribute("successMessage", "Tool registered successfully");
-            return "redirect:/home/company/photo";
+            System.out.println(file.getContentType());
+            if (file.getContentType().equals("image/png")  || file.getContentType().equals("image/jpeg")){
+                User currentUser=userService.findUserByEmail(principal.getName());
+                photo.setUser(currentUser);
+                try {
+                    photo.setImage(file.getBytes());
+                    //System.out.println(file.getContentType());
+                    // System.out.println(file.getSize());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                photoService.savePhoto(photo);
+                redirectAttribute.addFlashAttribute("successMessage", "Photo registered successfully");
+                return "redirect:/home/company/photo";
+            }else {
+                redirectAttribute.addFlashAttribute("errorMessage","Only png and jpeg formats allowed");
+            }
         }
         return "redirect:/home/company/photo/add";
     }
@@ -87,12 +102,12 @@ public class PhotoController {
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
         response.getOutputStream().write(imageContent.getImage());
 
-        System.out.println(imageContent.getImage());
+       // System.out.println(imageContent.getImage());
         for (byte value:imageContent.getImage()) {
-            System.out.print(value);
+           // System.out.print(value);
         }
-        System.out.print("\n");
-        System.out.print("\n");
+        //System.out.print("\n");
+        //System.out.print("\n");
 
         response.getOutputStream().close();
     }

@@ -13,10 +13,11 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty(message = "Description must be complete")
+    //@NotEmpty(message = "Description must be complete")
     private String description;
 
-    @NotEmpty(message = "Image must be uploaded")
+    //@NotEmpty(message = "Image must be uploaded")
+    @Lob
     private byte[] image;
 
     @ManyToOne
