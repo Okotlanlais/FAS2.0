@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html  xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -56,21 +56,21 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-6">
                         <!-- Basic Card Example -->
-                        <th:block th:each="view :${views}">
-                            <div class="card shadow mb-4">
-                                <a th:href="@{'/home/client/company/'+${view.id}}">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary" th:text="${view.name}"></h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <img th:src="@{${view.photoURL}}" height="150px" width="150px">
-                                    </div>
-                                </a>
+                        <div th:each="view :${views}" class="row">
+                            <div class="col-lg-6">
+                                <div class="card shadow mb-4">
+                                    <a th:href="@{'/home/client/company/'+${view.id}}">
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary" th:text="${view.name}"></h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <img th:src="${view.photoURL}">
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                        </th:block>
-                    </div>
+                        </div>
                 </div>
 
             </div>

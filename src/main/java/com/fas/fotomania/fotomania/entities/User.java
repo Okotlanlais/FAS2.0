@@ -49,6 +49,12 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Schedule schedule;
 
+    @OneToMany(mappedBy = "client")
+    private Set<Reservation> reservationsClient;
+
+    @OneToMany(mappedBy = "company")
+    private Set<Reservation> getReservationsCompany;
+
     public int getId() {
         return id;
     }
@@ -143,5 +149,21 @@ public class User {
 
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
+    }
+
+    public Set<Reservation> getReservationsClient() {
+        return reservationsClient;
+    }
+
+    public void setReservationsClient(Set<Reservation> reservationsClient) {
+        this.reservationsClient = reservationsClient;
+    }
+
+    public Set<Reservation> getGetReservationsCompany() {
+        return getReservationsCompany;
+    }
+
+    public void setGetReservationsCompany(Set<Reservation> getReservationsCompany) {
+        this.getReservationsCompany = getReservationsCompany;
     }
 }

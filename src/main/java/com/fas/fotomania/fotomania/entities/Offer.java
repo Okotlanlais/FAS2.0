@@ -2,6 +2,7 @@ package com.fas.fotomania.fotomania.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Entity
 @Table(name = "offers")
@@ -20,6 +21,9 @@ public class Offer {
     @ManyToOne
     @JoinColumn(name = "auth_user_id")
     private User user;
+
+    @OneToMany(mappedBy = "offer")
+    private Set<Reservation> reservations;
 
     public int getId() {
         return id;
@@ -51,5 +55,13 @@ public class Offer {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }

@@ -56,7 +56,7 @@ public class HomeController {
             companyView.setId(company.getId());
             companyView.setName(company.getName());
             if(companyPhotos.size()>0){
-                companyView.setPhotoURL("/home/company/photo/"+companyPhotos.get(0).getId());
+                companyView.setPhotoURL("/home/client/photo/"+companyPhotos.get(0).getId());
             }else{
                 companyView.setPhotoURL("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/768px-No_image_available.svg.png");
             }

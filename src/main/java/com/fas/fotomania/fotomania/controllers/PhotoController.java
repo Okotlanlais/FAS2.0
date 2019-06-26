@@ -67,8 +67,6 @@ public class PhotoController {
                 photo.setUser(currentUser);
                 try {
                     photo.setImage(file.getBytes());
-                    //System.out.println(file.getContentType());
-                    // System.out.println(file.getSize());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -82,33 +80,25 @@ public class PhotoController {
         return "redirect:/home/company/photo/add";
     }
 
-    /*
-    @RequestMapping(value = "/home/company/photo/{photo_id}", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<byte[]> getImage(@PathVariable("photo_id") int photoId) throws IOException {
-
-        byte[] imageContent = photoService.findById(photoId).get().getImage();
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_PNG);
-        return new ResponseEntity<byte[]>(imageContent, headers, HttpStatus.OK);
-    }
-     */
-
     @RequestMapping(value = "/home/company/photo/{photo_id}", method = RequestMethod.GET)
-    public void getImage(@PathVariable("photo_id") int photoId, HttpServletResponse response, HttpServletRequest request)
+    public void getImageCompany(@PathVariable("photo_id") int photoId, HttpServletResponse response, HttpServletRequest request)
             throws ServletException, IOException {
 
 
         Photo imageContent = photoService.findById(photoId).get();
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
         response.getOutputStream().write(imageContent.getImage());
+        response.getOutputStream().close();
+    }
 
-       // System.out.println(imageContent.getImage());
-        for (byte value:imageContent.getImage()) {
-           // System.out.print(value);
-        }
-        //System.out.print("\n");
-        //System.out.print("\n");
+    @RequestMapping(value = "/home/client/photo/{photo_id}", method = RequestMethod.GET)
+    public void getImageClient(@PathVariable("photo_id") int photoId, HttpServletResponse response, HttpServletRequest request)
+            throws ServletException, IOException {
 
+
+        Photo imageContent = photoService.findById(photoId).get();
+        response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+        response.getOutputStream().write(imageContent.getImage());
         response.getOutputStream().close();
     }
 }
