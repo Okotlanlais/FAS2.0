@@ -71,7 +71,12 @@ public class HomeController {
     @RequestMapping(value="/home/client/company/{id}", method= RequestMethod.GET)
     public String homeCompany(@PathVariable int id, Model model){
         User company=userService.findCompanyById(id).get();
-        model.addAttribute("company",company);
-        return "companyView.html";
+        if(company.getCompany().equals("true")){
+            model.addAttribute("company",company);
+            return "companyView.html";
+        }else if(company.getCompany()!=null){
+            return "redirect:/home/client";
+        }
+        return "redirect:/home/client";
     }
 }

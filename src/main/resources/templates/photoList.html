@@ -28,7 +28,7 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+        <h1 class="h3 mb-4 text-gray-800">Photos</h1>
         <div th:each="photo :${photos}">
             <img th:src="@{'/home/company/photo/'+${photo.id}}" />
         </div>
