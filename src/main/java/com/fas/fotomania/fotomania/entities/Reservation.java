@@ -1,6 +1,7 @@
 package com.fas.fotomania.fotomania.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
@@ -14,11 +15,9 @@ public class Reservation {
     @NotEmpty(message = "Day must be complete")
     private String day;
 
-    @NotEmpty(message = "Start hour must be complete")
     @Column(name = "start_hour")
     private int startHour;
 
-    @NotEmpty(message = "End hour be complete")
     @Column(name = "end_hour")
     private int endHour;
 

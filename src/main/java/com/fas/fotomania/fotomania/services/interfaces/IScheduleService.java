@@ -14,4 +14,5 @@ public interface IScheduleService {
     public List<Schedule> listSchedule();
     public Schedule findScheduleByCompany(int companyId);
     public Optional<Schedule> findById(int id);
+    public List<String> daysOfWork(int companyId);
 }
