@@ -85,7 +85,7 @@ public class ScheduleService implements IScheduleService {
                 daysOfWork.add("Tuesday");
             }
             if(schedule.isThursday()){
-                daysOfWork.add("Tuesday");
+                daysOfWork.add("Thursday");
             }
             if(schedule.isSunday()){
                 daysOfWork.add("Sunday");

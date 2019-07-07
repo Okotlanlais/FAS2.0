@@ -1,6 +1,7 @@
 package com.fas.fotomania.fotomania.services.interfaces;
 
 import com.fas.fotomania.fotomania.entities.Reservation;
+import com.fas.fotomania.fotomania.entities.ReservationHours;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,4 +18,5 @@ public interface IReservationService {
     public Optional<Reservation> findById(int id);
     public String generateRandomCode(int length);
     public boolean checkAvailability(int companyId, int startHour, int endHour, String day);
+    public List<ReservationHours> hoursAndReservation(int companyId);
 }

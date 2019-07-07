@@ -73,7 +73,7 @@ public class ReservationController {
                        reservation.setCompany(company.get());
                        reservation.setCompleted(false);
                        reservation.setCode(reservationService.generateRandomCode(10));
-                       //reservationService.saveReservation(reservation);
+                       reservationService.saveReservation(reservation);
                        redirectAttribute.addFlashAttribute("successMessage", "Specialty registered successfully");
                        return "redirect:/home/client/company/reservation";
                    }else{

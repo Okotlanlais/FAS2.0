@@ -3,8 +3,11 @@ package com.fas.fotomania.fotomania.controllers;
 
 import com.fas.fotomania.fotomania.entities.CompanyView;
 import com.fas.fotomania.fotomania.entities.Photo;
+import com.fas.fotomania.fotomania.entities.ReservationHours;
 import com.fas.fotomania.fotomania.entities.User;
 import com.fas.fotomania.fotomania.services.interfaces.IPhotoService;
+import com.fas.fotomania.fotomania.services.interfaces.IReservationService;
+import com.fas.fotomania.fotomania.services.interfaces.IScheduleService;
 import com.fas.fotomania.fotomania.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,6 +32,12 @@ public class HomeController {
     @Autowired
     IPhotoService photoService;
 
+    @Autowired
+    IScheduleService scheduleService;
+
+    @Autowired
+    IReservationService reservationService;
+
     @RequestMapping(value="/", method= RequestMethod.GET)
     public String login(){
         return "login.html";
@@ -46,7 +55,14 @@ public class HomeController {
     }
 
     @RequestMapping(value="/home/company", method= RequestMethod.GET)
-    public String homeCompany(){
+    public String homeCompany(Principal principal, Model model){
+        User currentUser=userService.findUserByEmail(principal.getName());
+        model.addAttribute("schedule",scheduleService.findScheduleByCompany(currentUser.getId()));
+        //model.addAttribute("reservations", reservationService.findReservationsByCompany(currentUser.getId()));
+        model.addAttribute("reservations", reservationService.hoursAndReservation(currentUser.getId()));
+
+
+
         return "homeCompany.html";
     }
 

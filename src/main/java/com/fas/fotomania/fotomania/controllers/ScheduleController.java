@@ -32,7 +32,7 @@ public class ScheduleController {
     public String listSchedule(Model model, Principal principal) {
         User currentUser=userService.findUserByEmail(principal.getName());
         model.addAttribute("schedule",scheduleService.findScheduleByCompany(currentUser.getId()));
-        System.out.println(scheduleService.findScheduleByCompany(currentUser.getId()));
+        //System.out.println(scheduleService.findScheduleByCompany(currentUser.getId()));
         List<Integer> hours = new ArrayList<>();
         for( int i=7;i<=21;i++){
             hours.add(i);

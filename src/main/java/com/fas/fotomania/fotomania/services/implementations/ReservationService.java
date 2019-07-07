@@ -1,6 +1,7 @@
 package com.fas.fotomania.fotomania.services.implementations;
 
 import com.fas.fotomania.fotomania.entities.Reservation;
+import com.fas.fotomania.fotomania.entities.ReservationHours;
 import com.fas.fotomania.fotomania.entities.User;
 import com.fas.fotomania.fotomania.repository.IReservationRepository;
 import com.fas.fotomania.fotomania.repository.IUserRepository;
@@ -24,6 +25,9 @@ public class ReservationService implements IReservationService {
 
     @Autowired
     IUserService userService;
+
+    @Autowired
+    IReservationService reservationService;
 
     @Override
     public boolean saveReservation(Reservation reservation) {
@@ -106,17 +110,57 @@ public class ReservationService implements IReservationService {
         boolean flag=false;
         for (Reservation reservation:findReservationsByCompany(companyId)) {
             if(day.equals(reservation.getDay())) {
-                System.out.println("mismo dia");
-                System.out.println("EndHourNueva: "+endHour);
-                System.out.println("StartHourVieja: "+reservation.getStartHour());
-                System.out.println("StartHourNueva: "+startHour);
-                System.out.println("EndHourVieja: "+reservation.getEndHour());
                 if ((endHour <= reservation.getStartHour() || startHour >= reservation.getEndHour())) {
-                    System.out.println("horas libres");
                     flag = true;
                 }
-            }else{System.out.println("No mismo dia");}
+            }else{
+                flag=true;
+            }
         }
         return flag;
+    }
+
+    @Override
+    public List<ReservationHours> hoursAndReservation(int companyId){
+        List<ReservationHours> reservationHours= new ArrayList<>();
+        for( int i=7;i<=21;i++){
+            ReservationHours reservationHour= new ReservationHours();
+            for (Reservation reservation:reservationService.findReservationsByCompany(companyId)) {
+                if(i>=reservation.getStartHour()&&i<=reservation.getEndHour()){
+                    if(reservation.getDay().equals("Monday")){
+                        reservationHour.setMonday("Monday");
+                    }
+                    if(reservation.getDay().equals("Tuesday")){
+                        reservationHour.setTuesday("Tuesday");
+                    }
+                    if(reservation.getDay().equals("Wednesday")){
+                        reservationHour.setWednesday("Wednesday");
+                    }
+                    if(reservation.getDay().equals("Thursday")){
+                        reservationHour.setThursday("Thursday");
+                    }
+                    if(reservation.getDay().equals("Friday")){
+                        reservationHour.setFriday("Friday");
+                    }
+                    if(reservation.getDay().equals("Saturday")){
+                        reservationHour.setSaturday("Saturday");
+                    }
+                    if(reservation.getDay().equals("Sunday")){
+                        reservationHour.setSunday("Sunday");
+                    }
+                }
+            }
+            reservationHour.setHour(i);
+            reservationHours.add(reservationHour);
+            System.out.println(reservationHour.getHour());
+            System.out.println(reservationHour.getFriday());
+            System.out.println(reservationHour.getMonday());
+            System.out.println(reservationHour.getSaturday());
+            System.out.println(reservationHour.getSunday());
+            System.out.println(reservationHour.getThursday());
+            System.out.println(reservationHour.getTuesday());
+            System.out.println(reservationHour.getWednesday());
+        }
+        return reservationHours;
     }
 }
