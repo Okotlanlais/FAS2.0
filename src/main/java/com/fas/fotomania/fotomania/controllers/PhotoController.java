@@ -30,6 +30,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.sql.Blob;
+import java.util.Optional;
 
 @Controller
 public class PhotoController {
@@ -79,6 +80,50 @@ public class PhotoController {
         }
         return "redirect:/home/company/photo/add";
     }
+
+    @RequestMapping(value = "/home/company/photo/update/{id}", method = RequestMethod.GET)
+    public String createUpdatePhoto(@PathVariable int id,Model model){
+        model.addAttribute("photo", photoService.findById(id));
+
+        return "photoUpdate.html";
+    }
+
+    @RequestMapping(value = "/home/company/photo/update", method = RequestMethod.POST)
+    public String updatePhoto(@Valid Photo photo, BindingResult bindingResult, RedirectAttributes redirectAttribute, Principal principal, @RequestParam("image") MultipartFile file) {
+        if (photo.getDescription().length() == 0 || file.getSize() == 0){
+            redirectAttribute.addFlashAttribute("errorMessage","Complete all the inputs in the form");
+            //redirectAttribute.addFlashAttribute("bindingResult", bindingResult);
+        }else {
+            if (file.getContentType().equals("image/png")  || file.getContentType().equals("image/jpeg")){
+                User currentUser=userService.findUserByEmail(principal.getName());
+                photo.setUser(currentUser);
+                try {
+                    photo.setImage(file.getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                photoService.savePhoto(photo);
+                redirectAttribute.addFlashAttribute("successMessage", "Photo updated successfully");
+                return "redirect:/home/company/photo";
+            }else {
+                redirectAttribute.addFlashAttribute("errorMessage","Only png and jpeg formats allowed");
+            }
+        }
+        return "redirect:/home/company/photo/update";
+    }
+    @RequestMapping(value = "/home/company/photo/delete/{id}", method = RequestMethod.GET)
+    public String deletePhoto(@PathVariable int id, RedirectAttributes redirectAttribute, Principal principal){
+        Optional<Photo> photo= photoService.findById(id);
+        User currentUser = userService.findUserByEmail(principal.getName());
+        if (photo.get().getUser().getId()==currentUser.getId()){
+            photoService.deletePhoto(photo.get());
+            redirectAttribute.addFlashAttribute("successMessage", "Delete completed");
+        }else{
+            redirectAttribute.addFlashAttribute("errorMessage", "We are watching you!");
+        }
+        return "redirect:/home/company/photo";
+    }
+
 
     @RequestMapping(value = "/home/company/photo/{photo_id}", method = RequestMethod.GET)
     public void getImageCompany(@PathVariable("photo_id") int photoId, HttpServletResponse response, HttpServletRequest request)

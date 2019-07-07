@@ -68,7 +68,7 @@
             </div>
 
             <div th:each="photo :${photos}">
-                <img th:src="@{'/home/client/photo/'+${photo.id}}" />
+                <img th:src="@{'/home/client/photo/'+${photo.id}}" width="100%" />
             </div>
         </div>
             <!-- /.container-fluid -->

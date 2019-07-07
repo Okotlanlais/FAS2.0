@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Fotomania-List-Photos</title>
+    <title>Fotomania-Update-Photos</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -33,37 +33,20 @@
             <div th:replace="fragments/topbarCompany :: topbarCompany"></div>
             <!-- End of Topbar -->
 
-            <!-- Begin Page Content -->
-            <div class="container-fluid">
-
-                <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Photos</h1>
-                <div th:each="photo :${photos}">
-                    <img th:src="@{'/home/company/photo/'+${photo.id}}" width="100%" />
-                    <div th:if="${photo}">
-                        <a th:href="@{'/home/company/photo/delete/' + ${photo.id}}" class="btn btn-danger btn-icon-split">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-trash"></i>
-                    </span>
-                            <span class="text">Delete</span>
-                        </a>
-                        <a th:href="@{'/home/company/photo/update/' + ${photo.id}}" class="btn btn-success btn-icon-split">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-check"></i>
-                    </span>
-                            <span class="text">Update</span>
-                        </a>
-                    </div>
+            <form class="user" action="/home/company/photo/update" th:object="${photo}" method="post" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-group row">
+                    <input th:field="*{description}" type="text" class="form-control form-control-user" placeholder="Name">
                 </div>
-            </div>
-            <!-- /.container-fluid -->
+                <div class="form-group">
+                    <input type="file" class="form-control form-control-user" id="image" name="image">
+                </div>
+                <button class="btn btn-primary btn-user btn-block" name="Submit" value="AddPhoto" type="Submit">Update Photo</button>
+                <span th:utext="${errorMessage}"></span>
+            </form>
 
         </div>
     </div>
-
-</div>
-<!-- End of Main Content -->
-
 
 </div>
 <!-- Bootstrap core JavaScript-->
