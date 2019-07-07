@@ -15,4 +15,6 @@ public interface IReservationService {
     public List<Reservation> findReservationsByCompany(int userId);
     public List<Reservation> findReservationsByClient(int userId);
     public Optional<Reservation> findById(int id);
+    public String generateRandomCode(int length);
+    public boolean checkAvailability(int companyId, int startHour, int endHour, String day);
 }

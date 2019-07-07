@@ -29,6 +29,11 @@ public class HomeController {
     @Autowired
     IPhotoService photoService;
 
+    @RequestMapping(value="/", method= RequestMethod.GET)
+    public String login(){
+        return "login.html";
+    }
+
     @RequestMapping(value="/home", method= RequestMethod.GET)
     public String home(Principal principal){
         final User currentUser= userService.findUserByEmail(principal.getName());

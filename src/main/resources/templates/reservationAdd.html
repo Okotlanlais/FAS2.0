@@ -20,6 +20,15 @@
 <body id="page-top">
 <!-- Page Wrapper -->
 <div id="wrapper">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+    <!-- Topbar -->
+    <div th:replace="fragments/topbar :: topbar"></div>
+    <!-- End of Topbar -->
+
     <p class="mb-4">Please, put an start Hour equal or bigger than <span th:text="${schedule.startHour}"></span> and a end Hour equal or lesser than <span th:text="${schedule.endHour}"></span></p>
 
     <form class="user" action="/home/client/company/reservation/add" th:object="${reservation}" method="post" enctype="multipart/form-data">
@@ -45,6 +54,8 @@
     </form>
 
 </div>
+    </div>
+    </div>
 <!-- Bootstrap core JavaScript-->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -62,24 +63,37 @@ public class ReservationController {
             if(companyid != 0 && reservation.getStartHour() != 0 && reservation.getEndHour() != 0){
                int startHour = scheduleService.findScheduleByCompany(companyid).getStartHour();
                int endHour = scheduleService.findScheduleByCompany(companyid).getEndHour();
-               if(startHour<endHour){
-                    User currentUser=userService.findUserByEmail(principal.getName());
-                    Optional<User> company=userService.findCompanyById(companyid);
-                    reservation.setClient(currentUser);
-                    reservation.setCompany(company.get());
-                    reservation.setCompleted(false);
-                    reservationService.saveReservation(reservation);
-                    redirectAttribute.addFlashAttribute("successMessage", "Specialty registered successfully");
-                    return "redirect:/home/client/company/reservation";
-                }
+               System.out.println(reservationService.checkAvailability(companyid,reservation.getStartHour(),reservation.getEndHour(),reservation.getDay()));
+               boolean available=reservationService.checkAvailability(companyid,reservation.getStartHour(),reservation.getEndHour(),reservation.getDay());
+               if((reservation.getStartHour()<reservation.getEndHour())&&(reservation.getStartHour()>=startHour&&reservation.getEndHour()<=endHour)){
+                   if(available){
+                       User currentUser=userService.findUserByEmail(principal.getName());
+                       Optional<User> company=userService.findCompanyById(companyid);
+                       reservation.setClient(currentUser);
+                       reservation.setCompany(company.get());
+                       reservation.setCompleted(false);
+                       reservation.setCode(reservationService.generateRandomCode(10));
+                       //reservationService.saveReservation(reservation);
+                       redirectAttribute.addFlashAttribute("successMessage", "Specialty registered successfully");
+                       return "redirect:/home/client/company/reservation";
+                   }else{
+                       redirectAttribute.addFlashAttribute("errorMessage","Sorry, that hour is already taken :(");
+                       return String.format("redirect:/home/client/company/reservation/add/%d",companyid);
+                   }
+                }else{
+                   redirectAttribute.addFlashAttribute("errorMessage","Correct the errors in the form");
+               }
+            }else{
+                redirectAttribute.addFlashAttribute("errorMessage","Correct the errors in the form");
             }
-
         }
         return String.format("redirect:/home/client/company/reservation/add/%d",companyid);
     }
 
     @RequestMapping(value="/home/client/company/reservation", method= RequestMethod.GET)
-    public String listReservation(){
+    public String listReservation(Principal principal, Model model){
+        User client = userService.findUserByEmail(principal.getName());
+        model.addAttribute("reservations", reservationService.findReservationsByClient(client.getId()));
         return "reservationList.html";
     }
 }

@@ -35,6 +35,8 @@ public class Reservation {
 
     private boolean completed;
 
+    private String code;
+
     public int getId() {
         return id;
     }
@@ -97,5 +99,13 @@ public class Reservation {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }
