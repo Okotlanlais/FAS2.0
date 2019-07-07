@@ -49,7 +49,6 @@ public class ReservationController {
             return "reservationAdd.html";
         }
         return String.format("redirect:/home/client/company/%d",id);
-
     }
 
     @RequestMapping(value = "/home/client/company/reservation/add", method = RequestMethod.POST)
@@ -74,7 +73,7 @@ public class ReservationController {
                        reservation.setCompleted(false);
                        reservation.setCode(reservationService.generateRandomCode(10));
                        reservationService.saveReservation(reservation);
-                       redirectAttribute.addFlashAttribute("successMessage", "Specialty registered successfully");
+                       redirectAttribute.addFlashAttribute("successMessage", "Reservation registered successfully");
                        return "redirect:/home/client/company/reservation";
                    }else{
                        redirectAttribute.addFlashAttribute("errorMessage","Sorry, that hour is already taken :(");
@@ -95,5 +94,28 @@ public class ReservationController {
         User client = userService.findUserByEmail(principal.getName());
         model.addAttribute("reservations", reservationService.findReservationsByClient(client.getId()));
         return "reservationList.html";
+    }
+
+    @RequestMapping(value="/home/company/client/reservation", method= RequestMethod.GET)
+    public String loadEndReservation(Principal principal, Model model){
+        User company = userService.findUserByEmail(principal.getName());
+        model.addAttribute("reservation", new Reservation());
+        model.addAttribute("reservations", reservationService.findReservationsByCompany(company.getId()));
+        return "reservationEnd.html";
+    }
+
+    @RequestMapping(value="/home/company/client/reservation/end", method= RequestMethod.POST)
+    public String endReservation(RedirectAttributes redirectAttribute,Principal principal,@ModelAttribute("code")String code){
+        User company = userService.findUserByEmail(principal.getName());
+        for (Reservation reservation: reservationService.findReservationsByCompany(company.getId())) {
+            if(reservation.getCode().equals(code)){
+                reservation.setCompleted(true);
+                reservationService.saveReservation(reservation);
+                redirectAttribute.addFlashAttribute("successMessage", "Reservation ended");
+                return "redirect:/home/company";
+            }
+        }
+        redirectAttribute.addFlashAttribute("errorMessage", "No reservation with that code");
+        return "redirect:/home/company/client/reservation";
     }
 }

@@ -126,7 +126,7 @@ public class ReservationService implements IReservationService {
         for( int i=7;i<=21;i++){
             ReservationHours reservationHour= new ReservationHours();
             for (Reservation reservation:reservationService.findReservationsByCompany(companyId)) {
-                if(i>=reservation.getStartHour()&&i<=reservation.getEndHour()){
+                if(i>=reservation.getStartHour()&&i<=reservation.getEndHour()&&!(reservation.isCompleted())){
                     if(reservation.getDay().equals("Monday")){
                         reservationHour.setMonday("Monday");
                     }
