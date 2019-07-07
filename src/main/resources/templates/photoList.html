@@ -24,16 +24,28 @@
     <div th:replace="fragments/sidebar :: sidebar"></div>
     <!-- End of Sidebar -->
 
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
+    <div id="content-wrapper" class="d-flex flex-column">
 
-        <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Photos</h1>
-        <div th:each="photo :${photos}">
-            <img th:src="@{'/home/company/photo/'+${photo.id}}" />
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <div th:replace="fragments/topbarCompany :: topbarCompany"></div>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-4 text-gray-800">Photos</h1>
+                <div th:each="photo :${photos}">
+                    <img th:src="@{'/home/company/photo/'+${photo.id}}" />
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+
         </div>
     </div>
-    <!-- /.container-fluid -->
 
 </div>
 <!-- End of Main Content -->

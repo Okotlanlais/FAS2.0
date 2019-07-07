@@ -24,50 +24,63 @@
     <div th:replace="fragments/sidebar :: sidebar"></div>
     <!-- End of Sidebar -->
 
-    <form class="user" action="/home/company/schedule/update" th:object="${schedule}" method="post">
-        <div class="form-group row">
-            <input type="hidden" th:field="*{id}">
-            <div class="col-sm-6">
-                <input th:field="*{monday}" type="checkbox" class="form-control form-control-user" value="1"> Monday
-            </div>
-            <div class="col-sm-6">
-                <input th:field="*{tuesday}" type="checkbox" class="form-control form-control-user" value="1"> Tuesday
-            </div>
-            <div class="col-sm-6">
-                <input th:field="*{wednesday}" type="checkbox" class="form-control form-control-user" value="1"> Wednesday
-            </div>
-            <div class="col-sm-6">
-                <input th:field="*{thursday}" type="checkbox" class="form-control form-control-user" value="1"> Thursday
-            </div>
-            <div class="col-sm-6">
-                <input th:field="*{friday}" type="checkbox" class="form-control form-control-user" value="1"> Friday
-            </div>
-            <div class="col-sm-6">
-                <input th:field="*{saturday}" type="checkbox" class="form-control form-control-user" value="1"> Saturday
-            </div>
-            <div class="col-sm-6">
-                <input th:field="*{sunday}" type="checkbox" class="form-control form-control-user" value="1"> Sunday
-            </div>
-            <div class="col-sm-6">
-                <input th:field="*{startHour}" type="number" class="form-control form-control-user" placeholder="7.00">
-                Start Hour
-            </div>
-            <div class="col-sm-6">
-                <input th:field="*{endHour}" type="number" class="form-control form-control-user" placeholder="18.00">
-                End Hour
-            </div>
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <div th:replace="fragments/topbarCompany :: topbarCompany"></div>
+            <!-- End of Topbar -->
+
+            <form class="user" action="/home/company/schedule/update" th:object="${schedule}" method="post">
+                <div class="form-group row">
+                    <input type="hidden" th:field="*{id}">
+                    <div class="col-sm-6">
+                        <input th:field="*{monday}" type="checkbox" class="form-control form-control-user" value="1"> Monday
+                    </div>
+                    <div class="col-sm-6">
+                        <input th:field="*{tuesday}" type="checkbox" class="form-control form-control-user" value="1"> Tuesday
+                    </div>
+                    <div class="col-sm-6">
+                        <input th:field="*{wednesday}" type="checkbox" class="form-control form-control-user" value="1"> Wednesday
+                    </div>
+                    <div class="col-sm-6">
+                        <input th:field="*{thursday}" type="checkbox" class="form-control form-control-user" value="1"> Thursday
+                    </div>
+                    <div class="col-sm-6">
+                        <input th:field="*{friday}" type="checkbox" class="form-control form-control-user" value="1"> Friday
+                    </div>
+                    <div class="col-sm-6">
+                        <input th:field="*{saturday}" type="checkbox" class="form-control form-control-user" value="1"> Saturday
+                    </div>
+                    <div class="col-sm-6">
+                        <input th:field="*{sunday}" type="checkbox" class="form-control form-control-user" value="1"> Sunday
+                    </div>
+                    <div class="col-sm-6">
+                        <input th:field="*{startHour}" type="number" class="form-control form-control-user" placeholder="7.00">
+                        Start Hour
+                    </div>
+                    <div class="col-sm-6">
+                        <input th:field="*{endHour}" type="number" class="form-control form-control-user" placeholder="18.00">
+                        End Hour
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-user btn-block" name="Submit" value="AddSchedule" type="Submit">Update Schedule</button>
+                <span th:utext="${errorMessage}"></span>
+                <div class="alert alert-danger alert-dismissible col-sm-12"
+                     th:if="${(bindingResult != null && bindingResult.getAllErrors() != null)}">
+                    <button type="button" class="close" data-dismiss="alert"
+                            aria-hidden="true">×</button>
+                    <ul th:each="data : ${bindingResult.getAllErrors()}">
+                        <li th:text="${data.getObjectName() + ' :: ' + data.getDefaultMessage()}"></li>
+                    </ul>
+                </div>
+            </form>
+
         </div>
-        <button class="btn btn-primary btn-user btn-block" name="Submit" value="AddSchedule" type="Submit">Update Schedule</button>
-        <span th:utext="${errorMessage}"></span>
-        <div class="alert alert-danger alert-dismissible col-sm-12"
-             th:if="${(bindingResult != null && bindingResult.getAllErrors() != null)}">
-            <button type="button" class="close" data-dismiss="alert"
-                    aria-hidden="true">×</button>
-            <ul th:each="data : ${bindingResult.getAllErrors()}">
-                <li th:text="${data.getObjectName() + ' :: ' + data.getDefaultMessage()}"></li>
-            </ul>
-        </div>
-    </form>
+    </div>
+
 
 </div>
 <!-- Bootstrap core JavaScript-->

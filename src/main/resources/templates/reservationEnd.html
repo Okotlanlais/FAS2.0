@@ -24,23 +24,35 @@
     <div th:replace="fragments/sidebar :: sidebar"></div>
     <!-- End of Sidebar -->
 
-    <form class="user" action="/home/company/client/reservation/end" method="post">
-        <div class="form-group row">
-            <div class="col-sm-6 mb-3 mb-sm-0">
-                <input id="code" name="code" type="text" class="form-control form-control-user" placeholder="Code">
-            </div>
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <div th:replace="fragments/topbarCompany :: topbarCompany"></div>
+            <!-- End of Topbar -->
+
+            <form class="user" action="/home/company/client/reservation/end" method="post">
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input id="code" name="code" type="text" class="form-control form-control-user" placeholder="Code">
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-user btn-block" name="Submit" value="AddOffer" type="Submit">End Reservation</button>
+                <span th:utext="${errorMessage}"></span>
+                <div class="alert alert-danger alert-dismissible col-sm-12"
+                     th:if="${(bindingResult != null && bindingResult.getAllErrors() != null)}">
+                    <button type="button" class="close" data-dismiss="alert"
+                            aria-hidden="true">×</button>
+                    <ul th:each="data : ${bindingResult.getAllErrors()}">
+                        <li th:text="${data.getObjectName() + ' :: ' + data.getDefaultMessage()}"></li>
+                    </ul>
+                </div>
+            </form>
+
         </div>
-        <button class="btn btn-primary btn-user btn-block" name="Submit" value="AddOffer" type="Submit">End Reservation</button>
-        <span th:utext="${errorMessage}"></span>
-        <div class="alert alert-danger alert-dismissible col-sm-12"
-             th:if="${(bindingResult != null && bindingResult.getAllErrors() != null)}">
-            <button type="button" class="close" data-dismiss="alert"
-                    aria-hidden="true">×</button>
-            <ul th:each="data : ${bindingResult.getAllErrors()}">
-                <li th:text="${data.getObjectName() + ' :: ' + data.getDefaultMessage()}"></li>
-            </ul>
-        </div>
-    </form>
+    </div>
 
 </div>
 <!-- Bootstrap core JavaScript-->
