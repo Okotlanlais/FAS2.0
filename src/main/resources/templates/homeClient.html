@@ -32,7 +32,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <div th:replace="fragments/topbar :: topbar"></div>
+            <div th:replace="fragments/topbarClient :: topbarClient"></div>
             <!-- End of Topbar -->
 
             <!-- Begin Page Content -->
@@ -53,7 +53,7 @@
                                             <h6 class="m-0 font-weight-bold text-primary" th:text="${view.name}"></h6>
                                         </div>
                                         <div class="card-body">
-                                            <img th:src="${view.photoURL}">
+                                            <img th:src="${view.photoURL}" width="100%">
                                         </div>
                                     </a>
                                 </div>

@@ -32,7 +32,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <div th:replace="fragments/topbar :: topbar"></div>
+            <div th:replace="fragments/topbarClient :: topbarClient"></div>
             <!-- End of Topbar -->
 
             <!-- Begin Page Content -->
@@ -63,9 +63,13 @@
             </div>
 
             <h1 class="h3 mb-1 text-gray-800" th:text="${company.name}"></h1>
-            <p class="mb-4">Company Description...</p>
+            <div th:if="${companyInfo}">
+                <p class="mb-4" th:text="${companyInfo.description}"></p>
+            </div>
 
-
+            <div th:each="photo :${photos}">
+                <img th:src="@{'/home/client/photo/'+${photo.id}}" />
+            </div>
         </div>
             <!-- /.container-fluid -->
 

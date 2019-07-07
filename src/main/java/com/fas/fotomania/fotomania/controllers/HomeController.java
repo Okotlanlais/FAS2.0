@@ -5,10 +5,7 @@ import com.fas.fotomania.fotomania.entities.CompanyView;
 import com.fas.fotomania.fotomania.entities.Photo;
 import com.fas.fotomania.fotomania.entities.ReservationHours;
 import com.fas.fotomania.fotomania.entities.User;
-import com.fas.fotomania.fotomania.services.interfaces.IPhotoService;
-import com.fas.fotomania.fotomania.services.interfaces.IReservationService;
-import com.fas.fotomania.fotomania.services.interfaces.IScheduleService;
-import com.fas.fotomania.fotomania.services.interfaces.IUserService;
+import com.fas.fotomania.fotomania.services.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -38,6 +35,9 @@ public class HomeController {
 
     @Autowired
     IReservationService reservationService;
+
+    @Autowired
+    ICompanyInfoService companyInfoService;
 
     @RequestMapping(value="/", method= RequestMethod.GET)
     public String login(){
@@ -98,6 +98,8 @@ public class HomeController {
             User company=userService.findCompanyById(id).get();
             if(company.getCompany().equals("true")){
                 model.addAttribute("company",company);
+                model.addAttribute("companyInfo", companyInfoService.findCompanyInfosByCompany(company.getId()));
+                model.addAttribute("photos",photoService.findPhotosByCompany(company.getId()));
                 return "companyView.html";
             }else if(company.getCompany()==null){
                 return "redirect:/home/client";
