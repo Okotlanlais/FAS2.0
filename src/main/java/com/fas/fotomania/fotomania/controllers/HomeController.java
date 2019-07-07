@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -104,4 +105,32 @@ public class HomeController {
         }
         return "redirect:/home/client";
     }
+
+    @RequestMapping(value="/home/client/company/search", method= RequestMethod.POST)
+    public String searchCompany(Model model, @ModelAttribute("name")String name){
+        List<CompanyView> viewsInfo = new ArrayList<>();
+        List<User> companies = userService.findByName(name);
+
+        for (User company:companies) {
+            List<Photo> companyPhotos = photoService.findPhotosByCompany(company.getId());
+            CompanyView companyView= new CompanyView();
+            companyView.setId(company.getId());
+            companyView.setName(company.getName());
+            if(companyPhotos.size()>0){
+                companyView.setPhotoURL("/home/client/photo/"+companyPhotos.get(0).getId());
+            }else{
+                companyView.setPhotoURL("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/768px-No_image_available.svg.png");
+            }
+            viewsInfo.add(companyView);
+        }
+        model.addAttribute("views", viewsInfo);
+
+
+        return "homeClient.html";
+    }
+    @RequestMapping(value="/access-denied", method= RequestMethod.GET)
+    public String accessDenied(){
+        return "error.html";
+    }
+
 }

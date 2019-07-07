@@ -13,4 +13,5 @@ public interface IUserService {
     public User findUserByEmail(String email);
     public List<User> findAllCompanies();
     public Optional<User> findCompanyById(int id);
+    public List<User> findByName(String name);
 }

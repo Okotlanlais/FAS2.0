@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService implements IUserService {
@@ -63,5 +60,16 @@ public class UserService implements IUserService {
     @Override
     public Optional<User> findCompanyById(int id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public List<User> findByName(String name) {
+        List<User> companies = new ArrayList<>();
+        for (User company:userRepository.findByName(name)) {
+           if(company.getCompany().equals("true")){
+               companies.add(company);
+           }
+        }
+        return companies;
     }
 }

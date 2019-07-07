@@ -55,6 +55,9 @@ public class User {
     @OneToMany(mappedBy = "company")
     private Set<Reservation> getReservationsCompany;
 
+    @OneToOne(mappedBy = "user")
+    private CompanyInfo companyInfo;
+
     public int getId() {
         return id;
     }
@@ -165,5 +168,13 @@ public class User {
 
     public void setGetReservationsCompany(Set<Reservation> getReservationsCompany) {
         this.getReservationsCompany = getReservationsCompany;
+    }
+
+    public CompanyInfo getCompanyInfo() {
+        return companyInfo;
+    }
+
+    public void setCompanyInfo(CompanyInfo companyInfo) {
+        this.companyInfo = companyInfo;
     }
 }
